@@ -1,0 +1,27 @@
+version: 2.1
+orbs:
+  node: circleci/node@1.1.6
+jobs:
+  build-and-test:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: npm install
+            - run: echo "some tests"
+  docker-build-and-publish:
+    machine: true
+    steps:
+      - checkout
+      - run: echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+      - run: docker build -t kdblitz/docker_node_app:latest .
+      - run: docker push kdblitz/docker_node_app:latest
+workflows:
+    build:
+      jobs:
+        - build-and-test
+        - docker-build-and-publish:
+            requires:
+              - build-and-test
