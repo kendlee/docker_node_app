@@ -15,7 +15,7 @@ jobs:
     machine: true
     steps:
       - checkout
-      - docker build -t kdblitz/docker_node_app:latest .
+      - run: docker build -t kdblitz/docker_node_app:latest .
 workflows:
     build:
       jobs:
