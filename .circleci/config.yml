@@ -17,6 +17,7 @@ jobs:
       - checkout
       - docker build -t kdblitz/docker_node_app:latest .
 workflows:
-    build-and-test:
+    build:
       jobs:
         - build-and-test
+        - docker-build
