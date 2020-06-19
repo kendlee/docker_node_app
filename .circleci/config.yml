@@ -1,0 +1,20 @@
+version: 2.1
+jobs:
+  build-and-test:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: npm install
+#            - run: npm test
+  docker-build:
+    machine: true
+    steps:
+      - checkout
+      - docker build -t kdblitz/docker_node_app:latest .
+workflows:
+    build-and-test:
+      jobs:
+        - build-and-test
